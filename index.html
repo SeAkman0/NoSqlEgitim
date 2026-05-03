@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canlı Mesaj Panosu</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sayfa">
+    <header class="baslik">
+      <h1>Canlı Mesaj Panosu</h1>
+      <p class="alt-baslik">Mesajını yaz, herkes görsün.</p>
+    </header>
+
+    <main>
+      <form id="mesaj-formu" class="kart form-kart" novalidate>
+        <label class="etiket" for="isimInput">İsim</label>
+        <input
+          type="text"
+          id="isimInput"
+          name="isim"
+          class="girdi"
+          placeholder="Adın veya takma adın"
+          autocomplete="nickname"
+          maxlength="80"
+          required
+        />
+
+        <label class="etiket" for="mesajInput">Mesaj</label>
+        <textarea
+          id="mesajInput"
+          name="mesaj"
+          class="girdi girdi-metin"
+          placeholder="Mesajını buraya yaz..."
+          rows="3"
+          maxlength="500"
+          required
+        ></textarea>
+
+        <button type="button" id="gonderBtn" class="gonder-btn">Gönder</button>
+      </form>
+
+      <section class="kart liste-kart" aria-labelledby="mesajlar-baslik">
+        <h2 id="mesajlar-baslik" class="liste-baslik">Mesajlar</h2>
+        <div id="mesajlar-alani" class="mesajlar-alani"></div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
