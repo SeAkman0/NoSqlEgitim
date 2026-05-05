@@ -1,11 +1,11 @@
-# GitHub'a Giren Kişi Firebase'te Ne Yapmalı?
+# Firebase kurulum nasıl yapılır?
 
 Bu README sadece Firebase kurulumu ve projede hangi dosyada neyi değiştireceğini anlatır.
 
 ## 1) Projeyi Çalıştır
 
 ```bash
-git clone https://github.com/kullanici-adi/proje-adi.git
+git clone https://github.com/SeAkman0/NoSqlEgitim
 cd proje-adi
 npx serve .
 ```
