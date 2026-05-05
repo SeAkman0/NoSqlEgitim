@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - NoSQL Eğitim</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="sayfa">
+      <header class="baslik">
+        <h1>Giriş Yap</h1>
+        <p class="alt-baslik">Silme yetkisi admin hesabında çalışır.</p>
+      </header>
+
+      <form id="giris-formu" class="kart form-kart" novalidate>
+        <label class="etiket" for="emailInput">E-posta</label>
+        <input
+          id="emailInput"
+          name="email"
+          type="email"
+          class="girdi"
+          placeholder="admin@example.com"
+          required
+          autocomplete="email"
+        />
+
+        <label class="etiket" for="sifreInput">Şifre</label>
+        <input
+          id="sifreInput"
+          name="sifre"
+          type="password"
+          class="girdi"
+          placeholder="Şifren"
+          required
+          autocomplete="current-password"
+        />
+
+        <button type="button" id="girisBtn" class="gonder-btn">
+          Giriş yap
+        </button>
+      </form>
+
+      <p class="alt-baslik">Giriş yaptıktan sonra otomatik yönlendirilirsiniz.</p>
+    </div>
+
+    <script type="module" src="login.js"></script>
+  </body>
+</html>
+

@@ -56,6 +56,28 @@ body {
   color: var(--metin-soluk);
 }
 
+.auth-durum {
+  display: inline-block;
+  margin: 0.6rem 0 0;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--kenar);
+  background: var(--yuzey-ust);
+  color: var(--metin-soluk);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.auth-durum.admin {
+  border-color: #4ea7ff;
+  color: #9fd0ff;
+}
+
+.auth-durum.katilimci {
+  border-color: #52b788;
+  color: #8ce3bb;
+}
+
 .kart {
   background: var(--yuzey);
   border: 1px solid var(--kenar);
@@ -148,6 +170,64 @@ body {
   border-radius: 10px;
   padding: 0.75rem 0.85rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+  position: relative;
+}
+
+.gorus-kutu-govde {
+  padding-right: 2.2rem; /* Sil butonu için yer */
+}
+
+.gorus-sil-btn {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  padding: 0.25rem 0.45rem;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--metin-soluk);
+  background: var(--arka);
+  border: 1px solid var(--kenar);
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gorus-sil-btn:hover {
+  color: var(--metin);
+  border-color: #c94c4c;
+  background: rgba(201, 76, 76, 0.12);
+}
+
+.gorus-sil-btn:active {
+  transform: scale(0.97);
+}
+
+.gizli {
+  display: none;
+}
+
+.auth-uyari {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--kenar);
+  background: rgba(36, 48, 68, 0.65);
+}
+
+.auth-uyari-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--vurgu), var(--vurgu-koyu));
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.auth-uyari-link:hover {
+  filter: brightness(1.05);
 }
 
 .gorus-kutu p,

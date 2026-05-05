@@ -11,7 +11,13 @@
     <header class="baslik">
       <h1>Canlı Geri Bildirim Panosu</h1>
       <p class="alt-baslik">Geri bildirimini yaz, herkes görsün.</p>
+      <p id="auth-durum" class="auth-durum">Giriş yapılmadı</p>
     </header>
+
+    <div id="auth-uyari" class="auth-uyari gizli" role="status" aria-live="polite">
+      <p>Bu etkinliğe katılanlar görüşlere müdahale edemezler. Silmek için giriş yap.</p>
+      <a class="auth-uyari-link" href="login.html?returnTo=index.html">Giriş yap</a>
+    </div>
 
     <main>
       <form id="gorus-formu" class="kart form-kart" novalidate>

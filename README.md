@@ -43,32 +43,48 @@ const firebaseConfig = {
 
 ## 5) Firestore Koleksiyonunu Hazırla
 
-Bu proje `mesajlar` koleksiyonunu kullanır.
+Bu proje `gorusler` koleksiyonunu kullanır.
 
-- Kullanıcı mesaj gönderince `addDoc(...)` ile `mesajlar` koleksiyonuna belge eklenir.
+- Kullanıcı geri bildirim gönderince `addDoc(...)` ile `gorusler` koleksiyonuna belge eklenir.
 - `onSnapshot(...)` ile aynı koleksiyon gerçek zamanlı dinlenir.
 
-Ekstra kod yazmana gerek yok; koleksiyon ilk mesajla otomatik oluşur.
+Ekstra kod yazmana gerek yok; koleksiyon ilk geri bildirimle otomatik oluşur.
 
-## 6) Firestore Rules (Eğitim İçin Basit)
+## 6) Authentication'da Admin Hesabı Oluştur
 
-Eğitim demosu için temel bir kural:
+Silme yetkisi için önce admin hesabı aç:
+
+1. Firebase Console'da `Build > Authentication` aç.
+2. `Get started` de ve `Sign-in method` içinde `Email/Password` sağlayıcısını aç.
+3. `Users` sekmesinden `Add user` ile bir admin hesabı oluştur (örnek: `admin@egitim.com`).
+4. Eklenen admin kullanıcısının satırına girip `UID` bilgisini kopyala.
+
+## 7) Firestore Rules (Eğitim İçin Basit)
+
+`Build > Firestore Database > Rules` bölümüne aşağıdaki kuralları yapıştır:
 
 ```txt
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /mesajlar/{docId} {
-      allow read, write: if true;
+    match /gorusler/{docId} {
+      allow read: if true;          // herkes görsün
+      allow create: if true;       // katılımcı eklesin
+      allow update, delete: if request.auth != null
+        && request.auth.uid == "Qqq2oFOLJph7bAQL7TK8szlm0a62";
     }
   }
 }
 ```
 
-> Bu kural sadece demo içindir. Canlı kullanımda mutlaka kısıtla.
+Sonra:
 
-## 7) Hızlı Kontrol
+1. `Publish` butonuna basarak kuralları aktif et.
 
-1. Sayfadan bir mesaj gönder.
-2. Firestore'da `mesajlar` koleksiyonunda belge oluştuğunu gör.
-3. İkinci cihazdan açınca mesajların gerçek zamanlı geldiğini kontrol et.
+## 8) Hızlı Kontrol
+
+1. Sayfadan bir görüş gönder.
+2. Firestore'da `gorusler` koleksiyonunda belge oluştuğunu gör.
+3. Giriş yapmadan silmeyi dene: izin verilmemeli.
+4. Admin hesabıyla giriş yapıp silmeyi dene: silme başarılı olmalı.
+5. İkinci cihazdan açınca görüşlerin gerçek zamanlı geldiğini kontrol et.

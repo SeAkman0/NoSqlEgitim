@@ -2,6 +2,8 @@
 // 1. FIREBASE KURULUMU VE BAĞLANTISI 
 // =====================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { firebaseConfig } from "./firebase-config.js";
 import {
   getFirestore,
   collection,
@@ -10,22 +12,16 @@ import {
   serverTimestamp,
   query,
   orderBy,
+  deleteDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-// BURAYA KENDİ FİREBASE CONFIG BİLGİLERİNİ YAPIŞTIR
-const firebaseConfig = {
- 
-  apiKey: "AIzaSyCENZ3wRTRNLW-sMsZmhAMMZPwC0P-QIeg",
-  authDomain: "nosqlegitim2.firebaseapp.com",
-  projectId: "nosqlegitim2",
-  storageBucket: "nosqlegitim2.firebasestorage.app",
-  messagingSenderId: "961062761111",
-  appId: "1:961062761111:web:cd205b7314178e75606fd2"
-};
 
 const app = initializeApp(firebaseConfig);
 // Firestore veritabanı bağlantısı
 const db = getFirestore(app);
+// Authentication (giriş durumu) kontrolü
+const auth = getAuth(app);
+const ADMIN_UID = "Qqq2oFOLJph7bAQL7TK8szlm0a62";
 // "gorusler" koleksiyonuna referans
 const goruslerRef = collection(db, "gorusler");
 
@@ -34,6 +30,33 @@ const isimInput = document.getElementById("isimInput");
 const gorusInput = document.getElementById("gorusInput");
 const gonderBtn = document.getElementById("gonderBtn");
 const goruslerAlani = document.getElementById("gorusler-alani");
+const authUyari = document.getElementById("auth-uyari");
+const authDurum = document.getElementById("auth-durum");
+
+// Giriş yapıldı mı kontrolü (Sil butonunu pasif etmek yerine yalnızca UI mesajını gösteriyoruz)
+onAuthStateChanged(auth, (user) => {
+  if (authUyari && user) {
+    // Giriş sonrası uyarıyı gizle
+    authUyari.classList.add("gizli");
+  }
+
+  if (!authDurum) return;
+  authDurum.classList.remove("admin", "katilimci");
+
+  if (!user) {
+    authDurum.textContent = "Giriş yapılmadı";
+    return;
+  }
+
+  if (user.uid === ADMIN_UID) {
+    authDurum.textContent = "Admin girişi yapıldı";
+    authDurum.classList.add("admin");
+    return;
+  }
+
+  authDurum.textContent = "Katılımcı girişi yapıldı";
+  authDurum.classList.add("katilimci");
+});
 
 function guvenliMetin(metin) {
   // HTML içine basılacak metni güvenli hale getirir
@@ -112,10 +135,40 @@ onSnapshot(q, (snapshot) => {
     }
 
     // Kartı gorus listesine ekle
+    const gorusId = docSnap.id; // Silme butonunda kullanılacak belge id'si
     goruslerAlani.innerHTML += `
             <div class="gorus-kutu">
-                ${kartIcerigi}
+                <button type="button" class="gorus-sil-btn" data-gorus-id="${gorusId}" aria-label="Görüşü sil">🗑️</button>
+                <div class="gorus-kutu-govde">
+                  ${kartIcerigi}
+                </div>
             </div>
         `;
   });
+});
+
+// Sil butonları için tek event listener (dinamik HTML uyumlu)
+goruslerAlani.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".gorus-sil-btn");
+  if (!btn) return;
+
+  const gorusId = btn.getAttribute("data-gorus-id");
+  if (!gorusId) return;
+
+  // Giriş yoksa sadece üstteki uyarıyı göster
+  if (!auth.currentUser) {
+    if (authUyari) {
+      authUyari.classList.remove("gizli");
+      authUyari.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    return;
+  }
+
+  try {
+    await deleteDoc(doc(db, "gorusler", gorusId));
+    alert("Görüş silindi");
+  } catch (err) {
+    // Yanlış şifre / yetki yoksa veya Rules izin vermiyorsa buraya düşer
+    alert("Yetkisiz işlem! Silme yetkiniz yok.");
+  }
 });
