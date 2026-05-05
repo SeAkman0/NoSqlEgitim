@@ -130,7 +130,7 @@ body {
   color: var(--metin-soluk);
 }
 
-.mesajlar-alani {
+.gorusler-alani {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -141,8 +141,8 @@ body {
 }
 
 /* Slides / kodda mesaj-karti veya mesaj-kutu yazılsa da aynı çerçeve */
-.mesaj-kutu,
-.mesaj-karti {
+.gorus-kutu,
+.gorus-karti {
   background: var(--yuzey-ust);
   border: 1px solid var(--kenar);
   border-radius: 10px;
@@ -150,25 +150,25 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
 }
 
-.mesaj-kutu p,
-.mesaj-karti p {
+.gorus-kutu p,
+.gorus-karti p {
   margin: 0.25rem 0;
   font-size: 0.9rem;
   word-break: break-word;
 }
 
-.mesaj-kutu p:first-child,
-.mesaj-karti p:first-child {
+.gorus-kutu p:first-child,
+.gorus-karti p:first-child {
   margin-top: 0;
 }
 
-.mesaj-kutu p:last-child,
-.mesaj-karti p:last-child {
+.gorus-kutu p:last-child,
+.gorus-karti p:last-child {
   margin-bottom: 0;
 }
 
-.mesaj-kutu .satir-anahtar,
-.mesaj-karti .satir-anahtar {
+.gorus-kutu .satir-anahtar,
+.gorus-karti .satir-anahtar {
   color: var(--metin-soluk);
   font-weight: 600;
   text-transform: capitalize;

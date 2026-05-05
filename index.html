@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canlı Mesaj Panosu</title>
+  <title>NoSql Eğitim Görüş-Geri Bildirim Panosu</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="sayfa">
     <header class="baslik">
-      <h1>Canlı Mesaj Panosu</h1>
-      <p class="alt-baslik">Mesajını yaz, herkes görsün.</p>
+      <h1>Canlı Geri Bildirim Panosu</h1>
+      <p class="alt-baslik">Geri bildirimini yaz, herkes görsün.</p>
     </header>
 
     <main>
-      <form id="mesaj-formu" class="kart form-kart" novalidate>
+      <form id="gorus-formu" class="kart form-kart" novalidate>
         <label class="etiket" for="isimInput">İsim</label>
         <input
           type="text"
@@ -27,12 +27,12 @@
           required
         />
 
-        <label class="etiket" for="mesajInput">Mesaj</label>
+        <label class="etiket" for="gorusInput">Görüş & Düşünceler</label>
         <textarea
-          id="mesajInput"
-          name="mesaj"
+          id="gorusInput"
+          name="gorus"
           class="girdi girdi-metin"
-          placeholder="Mesajını buraya yaz..."
+          placeholder="Görüşünü buraya yaz..."
           rows="3"
           maxlength="500"
           required
@@ -41,9 +41,9 @@
         <button type="button" id="gonderBtn" class="gonder-btn">Gönder</button>
       </form>
 
-      <section class="kart liste-kart" aria-labelledby="mesajlar-baslik">
-        <h2 id="mesajlar-baslik" class="liste-baslik">Mesajlar</h2>
-        <div id="mesajlar-alani" class="mesajlar-alani"></div>
+      <section class="kart liste-kart" aria-labelledby="gorusler-baslik">
+        <h2 id="gorusler-baslik" class="liste-baslik">Görüşler</h2>
+        <div id="gorusler-alani" class="gorusler-alani"></div>
       </section>
 
       <section class="kart gelistiren-kart" aria-labelledby="gelistiren-baslik">

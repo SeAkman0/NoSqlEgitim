@@ -26,14 +26,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Firestore veritabanı bağlantısı
 const db = getFirestore(app);
-// "mesajlar" koleksiyonuna referans
-const mesajlarRef = collection(db, "mesajlar");
+// "gorusler" koleksiyonuna referans
+const goruslerRef = collection(db, "gorusler");
 
 // Arayüz elementleri
 const isimInput = document.getElementById("isimInput");
-const mesajInput = document.getElementById("mesajInput");
+const gorusInput = document.getElementById("gorusInput");
 const gonderBtn = document.getElementById("gonderBtn");
-const mesajlarAlani = document.getElementById("mesajlar-alani");
+const goruslerAlani = document.getElementById("gorusler-alani");
 
 function guvenliMetin(metin) {
   // HTML içine basılacak metni güvenli hale getirir
@@ -50,41 +50,41 @@ function guvenliMetin(metin) {
 gonderBtn.addEventListener("click", async () => {
   // Input'lardan güncel değerleri al
   const isim = isimInput.value.trim();
-  const mesaj = mesajInput.value.trim();
+  const gorus = gorusInput.value.trim();
 
-  if (isim === "" || mesaj === "") {
+  if (isim === "" || gorus === "") {
     // Boş veri gönderimini engelle
     return alert("Lütfen boş bırakmayın!");
   }
 
-  // Firestore'a yeni mesaj belgesi ekle
-  await addDoc(mesajlarRef, {
+  // Firestore'a yeni gorus belgesi ekle
+  await addDoc(goruslerRef, {
     isim: isim,
-    mesaj: mesaj,
+    gorus: gorus,
     // Sunucu zamanı ile sıralama tutarlılığı sağlanır
     tarih: serverTimestamp(),
   });
 
   // Formu temizle
   isimInput.value = "";
-  mesajInput.value = "";
+  gorusInput.value = "";
 });
 
 
 // =====================================================================
 // 3. GERÇEK ZAMANLI VERİ ÇEKME (READ & REALTIME DYNAMIC UI)
 // =====================================================================
-// Mesajları en yeni üstte olacak şekilde sorgula
-const q = query(mesajlarRef, orderBy("tarih", "desc"));
+// Gorusleri en yeni üstte olacak şekilde sorgula
+const q = query(goruslerRef, orderBy("tarih", "desc"));
 
 onSnapshot(q, (snapshot) => {
   // Her güncellemede alanı sıfırdan çiz
-  mesajlarAlani.innerHTML = "";
+  goruslerAlani.innerHTML = "";
 
   if (snapshot.empty) {
     // Veri yoksa bilgilendirme göster
-    mesajlarAlani.innerHTML =
-      '<p class="bos-durum">Henüz mesaj yok. İlk mesajı sen gönder.</p>';
+    goruslerAlani.innerHTML =
+      '<p class="bos-durum">Henüz görüş bildiren yok. İlk görüş geri bildirimini sen gönder.</p>';
     return;
   }
 
@@ -98,22 +98,22 @@ onSnapshot(q, (snapshot) => {
     if (veri.isim) {
       kartIcerigi += `<p><strong>İSİM:</strong> ${guvenliMetin(veri.isim)}</p>`;
     }
-    if (veri.mesaj) {
-      kartIcerigi += `<p><strong>MESAJ:</strong> ${guvenliMetin(veri.mesaj)}</p>`;
+    if (veri.gorus) {
+      kartIcerigi += `<p><strong>Görüş&Geri Bildirim:</strong> ${guvenliMetin(veri.gorus)}</p>`;
     }
 
     for (const [anahtar, deger] of Object.entries(veri)) {
       // Sabit gösterdiklerimizi tekrar etme
-      if (anahtar !== "tarih" && anahtar !== "isim" && anahtar !== "mesaj") {
+      if (anahtar !== "tarih" && anahtar !== "isim" && anahtar !== "gorus") {
         // Yeni eklenen alanlar otomatik görünür
         const etiket = guvenliMetin(anahtar.toLocaleUpperCase("tr-TR"));
         kartIcerigi += `<p><strong>${etiket}:</strong> ${guvenliMetin(deger)}</p>`;
       }
     }
 
-    // Kartı mesaj listesine ekle
-    mesajlarAlani.innerHTML += `
-            <div class="mesaj-kutu">
+    // Kartı gorus listesine ekle
+    goruslerAlani.innerHTML += `
+            <div class="gorus-kutu">
                 ${kartIcerigi}
             </div>
         `;
