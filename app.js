@@ -65,25 +65,39 @@ gonderBtn.addEventListener("click", async () => {
 // =====================================================================
 // 3. GERÇEK ZAMANLI VERİ ÇEKME (READ & REALTIME DYNAMIC UI)
 // =====================================================================
-let tumMesajlarHtml = "";
+const q = query(mesajlarRef, orderBy("tarih", "desc"));
 
-snapshot.forEach((docSnap) => {
-  // 1. Destructuring: isim, mesaj ve tarih dışındaki verileri 'digerleri' objesinde topluyoruz
-  const { isim, mesaj, tarih, ...digerleri } = docSnap.data();
-  let kartIcerigi = "";
+onSnapshot(q, (snapshot) => {
+  mesajlarAlani.innerHTML = "";
 
-  if (isim) kartIcerigi += `<p><strong>İSİM:</strong> ${guvenliMetin(isim)}</p>`;
-  if (mesaj) kartIcerigi += `<p><strong>MESAJ:</strong> ${guvenliMetin(mesaj)}</p>`;
-
-  // 2. Kalan veriler için uzun "if" kontrollerine gerek kalmadan doğrudan döngü kuruyoruz
-  for (const [anahtar, deger] of Object.entries(digerleri)) {
-    const etiket = guvenliMetin(anahtar.toLocaleUpperCase("tr-TR"));
-    kartIcerigi += `<p><strong>${etiket}:</strong> ${guvenliMetin(deger)}</p>`;
+  if (snapshot.empty) {
+    mesajlarAlani.innerHTML =
+      '<p class="bos-durum">Henüz mesaj yok. İlk mesajı sen gönder.</p>';
+    return;
   }
 
-  tumMesajlarHtml += `
-    <div class="mesaj-kutu">
-        ${kartIcerigi}
-    </div>
-  `;
+  snapshot.forEach((docSnap) => {
+    const veri = docSnap.data();
+    let kartIcerigi = "";
+
+    if (veri.isim) {
+      kartIcerigi += `<p><strong>İSİM:</strong> ${guvenliMetin(veri.isim)}</p>`;
+    }
+    if (veri.mesaj) {
+      kartIcerigi += `<p><strong>MESAJ:</strong> ${guvenliMetin(veri.mesaj)}</p>`;
+    }
+
+    for (const [anahtar, deger] of Object.entries(veri)) {
+      if (anahtar !== "tarih" && anahtar !== "isim" && anahtar !== "mesaj") {
+        const etiket = guvenliMetin(anahtar.toLocaleUpperCase("tr-TR"));
+        kartIcerigi += `<p><strong>${etiket}:</strong> ${guvenliMetin(deger)}</p>`;
+      }
+    }
+
+    mesajlarAlani.innerHTML += `
+            <div class="mesaj-kutu">
+                ${kartIcerigi}
+            </div>
+        `;
+  });
 });
