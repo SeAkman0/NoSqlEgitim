@@ -1,4 +1,4 @@
-# Firebase kurulum nasıl yapılır?
+# Firebase Kurulum Nasıl Yapılır?
 
 Bu README sadece Firebase kurulumu ve projede hangi dosyada neyi değiştireceğini anlatır.
 
