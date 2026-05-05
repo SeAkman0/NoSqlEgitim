@@ -21,7 +21,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // Authentication (giriş durumu) kontrolü
 const auth = getAuth(app);
-const ADMIN_UID = "Qqq2oFOLJph7bAQL7TK8szlm0a62";
+//Firebase'ten alınan UID ile doldurulmalı
+const ADMIN_UID = "";
 // "gorusler" koleksiyonuna referans
 const goruslerRef = collection(db, "gorusler");
 

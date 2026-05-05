@@ -26,9 +26,11 @@ Tarayıcıda çıkan adrese gir.
 3. Uygulamaya isim verip kaydet.
 4. Verilen `firebaseConfig` nesnesini kopyala.
 
-## 4) Projede Değiştirilecek Yer
+## 4) Projede Doldurulacak Yerler (Boş Şablon Checklist)
 
-Sadece `app.js` içindeki `firebaseConfig` bloğunu kendi değerlerinle değiştir:
+Eğitim öncesi bu alanları doldur:
+
+1. `firebase-config.js` içindeki `firebaseConfig`:
 
 ```js
 const firebaseConfig = {
@@ -40,6 +42,22 @@ const firebaseConfig = {
   appId: "..."
 };
 ```
+
+2. `app.js` içindeki admin UID sabiti:
+
+```js
+const ADMIN_UID = "...";
+```
+
+3. `README.md` içindeki Firestore Rules bölümünde UID alanı:
+
+```txt
+request.auth.uid == "..."
+```
+
+4. (İsteğe bağlı) `index.html` geliştirici kartı:
+   - ad / e-posta / sosyal medya linkleri
+   - kaynak kod linki
 
 ## 5) Firestore Koleksiyonunu Hazırla
 
@@ -71,7 +89,7 @@ service cloud.firestore {
       allow read: if true;          // herkes görsün
       allow create: if true;       // katılımcı eklesin
       allow update, delete: if request.auth != null
-        && request.auth.uid == "Qqq2oFOLJph7bAQL7TK8szlm0a62";
+        && request.auth.uid == "BURAYA_ADMIN_UID";
     }
   }
 }
@@ -79,7 +97,8 @@ service cloud.firestore {
 
 Sonra:
 
-1. `Publish` butonuna basarak kuralları aktif et.
+1. `BURAYA_ADMIN_UID` yazan kısmı kendi admin UID değerinle değiştir.
+2. `Publish` butonuna basarak kuralları aktif et.
 
 ## 8) Hızlı Kontrol
 
