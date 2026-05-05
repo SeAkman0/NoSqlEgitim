@@ -14,12 +14,12 @@ import {
 
 // BURAYA KENDİ FİREBASE CONFIG BİLGİLERİNİ YAPIŞTIR
 const firebaseConfig = {
-  apiKey: "AIzaSyCXrMFToEe6Ce0Wcm0pJtgqvZIqSF5bg3M",
-  authDomain: "nosqlegitim.firebaseapp.com",
-  projectId: "nosqlegitim",
-  storageBucket: "nosqlegitim.firebasestorage.app",
-  messagingSenderId: "551075195597",
-  appId: "1:551075195597:web:7a11472a194bcbbc0b9784",
+  apiKey: "AIzaSyCENZ3wRTRNLW-sMsZmhAMMZPwC0P-QIeg",
+  authDomain: "nosqlegitim2.firebaseapp.com",
+  projectId: "nosqlegitim2",
+  storageBucket: "nosqlegitim2.firebasestorage.app",
+  messagingSenderId: "961062761111",
+  appId: "1:961062761111:web:cd205b7314178e75606fd2"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -63,41 +63,27 @@ gonderBtn.addEventListener("click", async () => {
 
 
 // =====================================================================
-// 3. GERÇEK ZAMANLI VERİ ÇEKME (READ & REALTIME DYNAMIC UI) - Şov Kısmı
+// 3. GERÇEK ZAMANLI VERİ ÇEKME (READ & REALTIME DYNAMIC UI)
 // =====================================================================
-const q = query(mesajlarRef, orderBy("tarih", "desc"));
+let tumMesajlarHtml = "";
 
-onSnapshot(q, (snapshot) => {
-  mesajlarAlani.innerHTML = "";
+snapshot.forEach((docSnap) => {
+  // 1. Destructuring: isim, mesaj ve tarih dışındaki verileri 'digerleri' objesinde topluyoruz
+  const { isim, mesaj, tarih, ...digerleri } = docSnap.data();
+  let kartIcerigi = "";
 
-  if (snapshot.empty) {
-    mesajlarAlani.innerHTML =
-      '<p class="bos-durum">Henüz mesaj yok. İlk mesajı sen gönder.</p>';
-    return;
+  if (isim) kartIcerigi += `<p><strong>İSİM:</strong> ${guvenliMetin(isim)}</p>`;
+  if (mesaj) kartIcerigi += `<p><strong>MESAJ:</strong> ${guvenliMetin(mesaj)}</p>`;
+
+  // 2. Kalan veriler için uzun "if" kontrollerine gerek kalmadan doğrudan döngü kuruyoruz
+  for (const [anahtar, deger] of Object.entries(digerleri)) {
+    const etiket = guvenliMetin(anahtar.toLocaleUpperCase("tr-TR"));
+    kartIcerigi += `<p><strong>${etiket}:</strong> ${guvenliMetin(deger)}</p>`;
   }
 
-  snapshot.forEach((docSnap) => {
-    const veri = docSnap.data();
-    let kartIcerigi = "";
-
-    if (veri.isim) {
-      kartIcerigi += `<p><strong>İSİM:</strong> ${guvenliMetin(veri.isim)}</p>`;
-    }
-    if (veri.mesaj) {
-      kartIcerigi += `<p><strong>MESAJ:</strong> ${guvenliMetin(veri.mesaj)}</p>`;
-    }
-
-    for (const [anahtar, deger] of Object.entries(veri)) {
-      if (anahtar !== "tarih" && anahtar !== "isim" && anahtar !== "mesaj") {
-        const etiket = guvenliMetin(anahtar.toLocaleUpperCase("tr-TR"));
-        kartIcerigi += `<p><strong>${etiket}:</strong> ${guvenliMetin(deger)}</p>`;
-      }
-    }
-
-    mesajlarAlani.innerHTML += `
-            <div class="mesaj-kutu">
-                ${kartIcerigi}
-            </div>
-        `;
-  });
+  tumMesajlarHtml += `
+    <div class="mesaj-kutu">
+        ${kartIcerigi}
+    </div>
+  `;
 });
