@@ -22,7 +22,7 @@ const db = getFirestore(app);
 // Authentication (giriş durumu) kontrolü
 const auth = getAuth(app);
 //Firebase'ten alınan UID ile doldurulmalı
-const ADMIN_UID = "";
+const ADMIN_UID = "E3X11sloZsP4ASc2USD3C4C1xWH2";
 // "gorusler" koleksiyonuna referans
 const goruslerRef = collection(db, "gorusler");
 
